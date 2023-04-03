@@ -1,0 +1,79 @@
+[
+    {
+      "sid": 298,
+      "magistrat": "MBU ",
+      "location": "Vidtskuevej 25",
+      "Antal solceller": 2,
+      "Estimeret kapasitet pr panel i Wh": 3.058
+    },
+    {
+      "sid": 54399,
+      "magistrat": "MBU ",
+      "location": "Ajstrupvej 49",
+      "Antal solceller": 22,
+      "Estimeret kapasitet pr panel i Wh": 84
+    },
+    {
+      "sid": 54386,
+      "magistrat": "MBU ",
+      "location": "Kantorvænget 33",
+      "Antal solceller": 75,
+      "Estimeret kapasitet pr panel i Wh": 43
+    },
+    {
+      "sid": 2506,
+      "magistrat": "MSO ",
+      "location": "LC Mosealleen 1-3",
+      "Antal solceller": 102,
+      "Estimeret kapasitet pr panel i Wh": 327
+    },
+    {
+      "sid": 16009,
+      "magistrat": "MBU ",
+      "location": "Malling Skole",
+      "Antal solceller": 111,
+      "Estimeret kapasitet pr panel i Wh": 269
+    },
+    {
+      "sid": 54282,
+      "magistrat": "MSO ",
+      "location": "Ceres Allé 13",
+      "Antal_solceller": 146,
+      "kapasitet_pr_panel_i_Wh": 13
+    },
+    {
+      "sid": 54284,
+      "magistrat": "MTM ",
+      "location": "Kalkværksvej 10",
+      "Antal solceller": 196,
+      "Estimeret kapasitet pr panel i Wh": 0
+    },
+    {
+      "sid": 16008,
+      "magistrat": "MBU ",
+      "location": "Holme Skole",
+      "Antal solceller": 240,
+      "Estimeret kapasitet pr panel i Wh": 189
+    },
+    {
+      "sid": 15523,
+      "magistrat": "MKB ",
+      "location": "Dokk1",
+      "Antal solceller": 274,
+      "Estimeret kapasitet pr panel i Wh": 765
+    },
+    {
+      "sid": 16011,
+      "magistrat": "MBU ",
+      "location": "Skødstrup Skole",
+      "Antal solceller": 547,
+      "Estimeret kapasitet pr panel i Wh": 122
+    },
+    {
+      "sid": 16010,
+      "magistrat": "MBU ",
+      "location": "Mårslet Skole",
+      "Antal solceller": 703,
+      "Estimeret kapasitet pr panel i Wh": 169
+    }
+   ]
