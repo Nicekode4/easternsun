@@ -1,8 +1,13 @@
 import React from 'react'
+import { CapacityStyle } from './Capacity.style'
 
-function Capacity() {
+function Capacity(probs) {
   return (
-    <div>Capacity</div>
+    <CapacityStyle>
+      <img src="" alt="Image" />
+      <p>Capacity</p>
+      <h2>{probs.kapacitet} kW</h2>
+    </CapacityStyle>
   )
 }
 
