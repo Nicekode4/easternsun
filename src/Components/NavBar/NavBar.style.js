@@ -5,7 +5,9 @@ display: grid;
 grid-template-columns: repeat(4, 1fr);
 position: fixed;
 bottom: 0;
-margin-bottom: 1vh;
+padding-bottom: 1rem;
+background-color: black;
+width: 100%;
 div{
     padding-top: 0.5rem;
     a{
