@@ -15,7 +15,7 @@ header{
         padding: 0.5rem;
         margin-top: 0.5rem;
         font-size: 35px;
-        background-color: gray;
+        background-color: #252933;
 
     }
 }
@@ -25,7 +25,7 @@ header{
     justify-content: center;
     text-align: center;
     div{
-        background-color: gray;
+        background-color: #252933;
         border-radius: 20px;
         margin: 0.5rem;
     }

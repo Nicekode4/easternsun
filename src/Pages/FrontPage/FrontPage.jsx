@@ -15,6 +15,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import SummaryButton from '../../Components/SummaryButton/SummaryButton'
 const numbers = [22,4,66,8,99,1,8,25,46,63,83,39,3,83]
 
 ChartJS.register(
@@ -64,8 +65,13 @@ function FrontPage() {
           <h3>Dagens production</h3>
           <h2>4563 Wh</h2>
         </div>
-        <Bar options={options} data={data} />;
+        <div>
+          <Bar options={options} data={data} />;
+          
+        </div>
+        
       </div>
+      <SummaryButton />
       <div className='panelArea'>
         <div>
           <img src={solar} alt="" />

@@ -7,7 +7,7 @@ position: fixed;
 bottom: 0;
 padding-bottom: 0.5rem;
 padding-top: 0.5rem;
-background-color: gray;
+background-color: #252933;
 width: 22rem;
 border-radius: 20px;
 margin: 0.5rem;

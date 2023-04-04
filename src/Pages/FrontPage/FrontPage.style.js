@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const FrontPageStyle = styled.article`
 color: white;
-height: 115vh;
 img{
     height: 10vh;
     margin-left: 4rem;
@@ -12,18 +11,19 @@ p{
 }
 .revenueDiv{
     margin-top: 25vh;
-    height: 30vh;
-    margin-bottom: 5rem;
+    
+    background-color: #252933;
 
     div{
         display: grid;
         grid-template-columns: repeat(2,1fr);
+        padding: 0.5rem;
         h3{
-            margin-right: 1rem;
+            margin-right: 0.5rem;
         }
         h2{
             text-align: end;
-            margin-right: 1rem;
+            margin-right: 0.5rem;
         }
     }
 }
@@ -38,7 +38,7 @@ p{
     div{
         margin: 0.5rem;
         width: 10rem;
-        background-color: gray;
+        background-color: #252933;
         padding: 1rem;
         font-size: 13px;
         text-align: center;
