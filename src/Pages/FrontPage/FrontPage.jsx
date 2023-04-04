@@ -63,11 +63,12 @@ function FrontPage() {
 
   React.useEffect(() => {
     axios.get(url).then((response) => {
-      setPost(response.data.result);
+      setPost(response.data.result.records);
     });
-  }, []);
+  }, [id]);
 
 //console.log(post);
+
   return (
     <FrontPageStyle>
       <img src={logo} alt="logo" />
@@ -84,10 +85,11 @@ function FrontPage() {
       </div>
       <SummaryButton 
       SolarId={id}
+      Index={post?.indexOf(post?.find(c => c.sid == id))}
       />
       <div className='panelArea'>
       {solarData.map(function(item, index){
-        if (item.sid === id) {
+        if (item.sid == id) {
           return (
             <NavLink to={`/${item.sid}`} >
             <div className='DaActive'>
