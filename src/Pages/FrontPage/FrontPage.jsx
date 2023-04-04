@@ -56,6 +56,7 @@ export const data = {
 };
 
 function FrontPage() {
+  
 
   return (
     <FrontPageStyle>
