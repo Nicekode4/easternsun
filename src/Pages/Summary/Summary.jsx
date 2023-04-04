@@ -1,5 +1,6 @@
+import axios from 'axios'
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import Capacity from '../../Components/Capacity/Capacity'
 import CO2reduction from '../../Components/CO2reduction/CO2reduction'
 import PowerPeak from '../../Components/PowerPeak/PowerPeak'
@@ -45,35 +46,62 @@ function calculateCO2Reduction(energyProduction, carbonIntensity) {
 console.log("CO2 reduction: " + co2Reduction + " kg");
 console.log(calculateSolarEnergyProduced(powerRating, hoursOfSun, eff),"Wh");
 function Summary() {
-  console.log(solarData[5]);
-  return (
-    <SummaryStyle>
-      <header>
-      <p>☁️ {(cloudcover * 100).toFixed(0)}%</p>
-      <p>☀️ {hoursOfSun.toFixed(1)} T</p>
-      </header>
-      
-      <Production 
-      Wh={calculateSolarEnergyProduced(powerRating, hoursOfSun, eff).toFixed(1)}
-      />
+  let foundApi = []
+  let foundLocal = []
+  const { id } = useParams()
+  const url = "https://admin.opendata.dk/api/3/action/datastore_search?resource_id=251528ca-8ec9-4b70-9960-83c4d0c4e7b6"
+  const [post, setPost] = React.useState(null);
 
-      
-      <div className='cardArea'>
-      <Capacity 
-      kapacitet={solarData[5].kapasitet_pr_panel_i_Wh
-      }
-      />
-      <TotalEnergy />
-      <CO2reduction 
-      co2={calculateCO2Reduction(energyProduction, carbonIntensity).toFixed(1)}
-      />
-      <PowerPeak 
-      
-      />
-      </div>
+  React.useEffect(() => {
+    setTimeout(() => {
+      axios.get(url).then((response) => {
+        setPost(response.data.result.records);
+        
+      });
+    }, 0);
+  }, [id]);
+  console.log(typeof id);
+   foundApi = post.find(element => element.sid === 16015)
+   foundLocal = solarData.find(element => element.sid = id)
+  console.log(post);
+console.log(foundApi);
+  
 
-    </SummaryStyle>
-  )
+  if (post) {
+    return (
+      <SummaryStyle>
+        <header>
+        <p>☁️ {(cloudcover * 100).toFixed(0)}%</p>
+        <p>☀️ {hoursOfSun.toFixed(1)} T</p>
+        </header>
+        
+        <Production 
+        Wh={!post ? foundApi.current : 0}
+        />
+  
+        
+        <div className='cardArea'>
+        <Capacity 
+        kapacitet={solarData[5].kapasitet_pr_panel_i_Wh
+        }
+        />
+        <TotalEnergy />
+        <CO2reduction 
+        co2={calculateCO2Reduction(energyProduction, carbonIntensity).toFixed(1)}
+        />
+        <PowerPeak 
+        
+        />
+        </div>
+  
+      </SummaryStyle>
+    )
+  }else{
+    return (
+      <div>Loading...</div>
+    )
+  }
+  
 }
 
 export default Summary

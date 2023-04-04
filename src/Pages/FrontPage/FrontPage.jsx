@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import Navbar from '../../Components/NavBar/Navbar'
 import { FrontPageStyle } from './FrontPage.style'
 import logo from '../../Images/logo-no-background.png'
@@ -16,6 +16,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import SummaryButton from '../../Components/SummaryButton/SummaryButton'
+import axios from 'axios'
 const numbers = [22,4,66,8,99,1,8,25,46,63,83,39,3,83]
 
 ChartJS.register(
@@ -56,8 +57,17 @@ export const data = {
 };
 
 function FrontPage() {
-  
+  const { id } = useParams()
+  const url = "https://admin.opendata.dk/api/3/action/datastore_search?resource_id=251528ca-8ec9-4b70-9960-83c4d0c4e7b6"
+  const [post, setPost] = React.useState(null);
 
+  React.useEffect(() => {
+    axios.get(url).then((response) => {
+      setPost(response.data.result);
+    });
+  }, []);
+
+//console.log(post);
   return (
     <FrontPageStyle>
       <img src={logo} alt="logo" />
@@ -72,43 +82,33 @@ function FrontPage() {
         </div>
         
       </div>
-      <SummaryButton />
+      <SummaryButton 
+      SolarId={id}
+      />
       <div className='panelArea'>
-        <div>
+      {solarData.map(function(item, index){
+        if (item.sid === id) {
+          return (
+            <NavLink to={`/${item.sid}`} >
+            <div className='DaActive'>
           <img src={solar} alt="" />
-          <h2>{solarData[5].location}</h2>
-          <p>{solarData[5].Antal_solceller} paneler</p>
+          <h2>{solarData[index].location}</h2>
+          <p>{solarData[index].Antal_solceller} paneler</p>
         </div>
-        <div className='DaActive'>
+        </NavLink>
+          )
+        }else{
+          return (
+            <NavLink to={`/${item.sid}`}>
+            <div className='NotActive'>
           <img src={solar} alt="" />
-          <h2>{solarData[6].location}</h2>
-          <p>{solarData[6].Antal_solceller} paneler</p>
+          <h2>{solarData[index].location}</h2>
+          <p>{solarData[index].Antal_solceller} paneler</p>
         </div>
-        <div >
-          <img src={solar} alt="" />
-          <h2>{solarData[7].location}</h2>
-          <p>{solarData[7].Antal_solceller} paneler</p>
-        </div>
-        <div>
-          <img src={solar} alt="" />
-          <h2>{solarData[8].location}</h2>
-          <p>{solarData[8].Antal_solceller} paneler</p>
-        </div>
-        <div>
-          <img src={solar} alt="" />
-          <h2>{solarData[9].location}</h2>
-          <p>{solarData[9].Antal_solceller} paneler</p>
-        </div>
-        <div>
-          <img src={solar} alt="" />
-          <h2>{solarData[10].location}</h2>
-          <p>{solarData[10].Antal_solceller} paneler</p>
-        </div>
-        <div>
-          <img src={solar} alt="" />
-          <h2>{solarData[1].location}</h2>
-          <p>{solarData[1].Antal_solceller} paneler</p>
-        </div>
+        </NavLink>
+          )
+        }
+          })}
       </div>
     </FrontPageStyle>
   )

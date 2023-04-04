@@ -4,10 +4,10 @@ import { SummaryButtonStyle } from './SummaryButton.style'
 import summary from '../../Images/summary.png'
 import arrow from '../../Images/arrow.png'
 
-function SummaryButton() {
+function SummaryButton(probs) {
   return (
     <SummaryButtonStyle>
-       <NavLink to="/summary"> 
+       <NavLink to={`/summary/${probs.SolarId}`}> 
        <div>
            <img src={summary} alt="" className='summary'/> 
            <h2>Anlægs oversigt</h2>
