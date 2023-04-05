@@ -10,13 +10,13 @@ import TotalYeld from '../../Components/TotalYeld/TotalYeld'
 import solarData from "../../solcelle.json"
 import { SummaryStyle } from './Summary.style'
 let eff = 0.20 // 20%
-let cloudcover = 0
+let cloudcover = 5
 let hoursOfDay = 13
 let hoursOfSun = hoursOfDay - cloudcover * hoursOfDay
 let powerRating = solarData[5].Antal_solceller * solarData[5].kapasitet_pr_panel_i_Wh //Watts
 
 let energyProduction = calculateSolarEnergyProduced(powerRating, hoursOfSun, eff); // in watt-hours
-let carbonIntensity = 0.5; // in kg CO2 per kWh
+let carbonIntensity = 0.1; // in kg CO2 per kWh
 
 let co2Reduction = calculateCO2Reduction(energyProduction, carbonIntensity);
 
@@ -51,6 +51,7 @@ function Summary() {
   let foundApi = []
   let foundLocal = []
   const { id } = useParams()
+  let solarPanelData = solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))]
   const url = ""
   const [post, setPost] = React.useState(null);
   let productionData = []
@@ -75,6 +76,9 @@ function Summary() {
 getOpenWeather() 
   
   }, [id]);
+  let g1 = solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels * post?.hourly.cloudcover[new Date().getHours()] / 100
+let g2 = solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels
+let g3 = g2 - g1
   console.log(new Date(22.00).getHours());
     // Set the two times to subtract
 var time1 = new Date(post?.daily.sunrise[0]);
@@ -85,18 +89,20 @@ time1.setHours(time1.getHours() - 1);
 
 // Calculate the difference in minutes between the two times
 var diffInMinutes = Math.abs(time2 - time1) / (1000 * 60 * 60).toFixed(0);
-let NewCloudcover = post?.hourly.cloudcover[new Date().getHours()] / 1000
-let NewHoursOfSun = diffInMinutes - NewCloudcover * diffInMinutes
+let NewCloudcover = post?.hourly.cloudcover[new Date().getHours()] / 100
+console.log(new Date(post?.daily.sunset[0]));
+let NewHoursOfSun = diffInMinutes - (NewCloudcover * diffInMinutes)
 let todayMax = []
 console.log("The difference in hours between the two times is: " + diffInMinutes);
     console.log(diffInMinutes - NewCloudcover * diffInMinutes);
     let todayProduction = 0
     for (let index = 0; index < new Date().getHours() + 1; index++) {
       const element = post?.hourly.cloudcover[index];
-      todayMax.push(!NewCloudcover == 0 ? element / 1000 * solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].capacity_pr_panel_in_W * solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].number_of_panels : element / 1000 * solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].capacity_pr_panel_in_W * solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].number_of_panels)
-      todayProduction = todayProduction + !NewCloudcover == 0 ? element / 1000 * solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].capacity_pr_panel_in_W * solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].number_of_panels : element / 1000 * solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].capacity_pr_panel_in_W * solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].number_of_panels
+      todayMax.push(!NewCloudcover == 0 ? g2 - element / 100 * solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels : solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels)
+      todayProduction = todayProduction + !NewCloudcover == 0 ? g2 - element / 100 * solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels : solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels
     }
-    console.log(todayMax);
+    console.log(NewCloudcover);
+    
   // //  foundLocal = solarData.find(element => element.sid = id)
 // // setTimeout(() => {
 // //   console.log(post?.find(c => c.sid == id));
@@ -106,6 +112,9 @@ console.log("The difference in hours between the two times is: " + diffInMinutes
 // // //  console.log(post?.indexOf(post?.find(c => c.sid == id)));
 // // console.log(post?.find(c => c.sid == id));
 //lel
+
+
+console.log(g3.toFixed(0));
   if (post) {
     return (
       <SummaryStyle>
@@ -115,13 +124,14 @@ console.log("The difference in hours between the two times is: " + diffInMinutes
         </header>
         
         <Production 
-        Wh={!NewCloudcover == 0 ? (NewCloudcover * (solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].capacity_pr_panel_in_W * solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].number_of_panels)).toFixed(0) : (solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].capacity_pr_panel_in_W * solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].number_of_panels).toFixed(0)}
+        Wh= {new Date().getHours() >= new Date(post?.daily.sunset[0]).getHours() || new Date().getHours() < new Date(post?.daily.sunrise[0]).getHours() ? 0 : !NewCloudcover == 0 ? g3.toFixed(0) : (solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels).toFixed(0)}
+        
         />
   
       
         <div className='cardArea'>
         <Capacity 
-        kapacitet={solarData ? solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].capacity_pr_panel_in_W : 1}
+        kapacitet={solarData ? solarPanelData.capacity_pr_panel_in_W : 1}
         />
         <TotalEnergy 
         total={todayProduction}
