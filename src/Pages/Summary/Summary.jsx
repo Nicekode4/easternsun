@@ -105,7 +105,7 @@ console.log("The difference in hours between the two times is: " + diffInMinutes
 // // // console.log(post[post.length].hourly.cloudcover[new Date().getHours()]);
 // // //  console.log(post?.indexOf(post?.find(c => c.sid == id)));
 // // console.log(post?.find(c => c.sid == id));
-
+//lel
   if (post) {
     return (
       <SummaryStyle>
@@ -118,7 +118,7 @@ console.log("The difference in hours between the two times is: " + diffInMinutes
         Wh={!NewCloudcover == 0 ? (NewCloudcover * (solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].capacity_pr_panel_in_W * solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].number_of_panels)).toFixed(0) : (solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].capacity_pr_panel_in_W * solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].number_of_panels).toFixed(0)}
         />
   
-        
+      
         <div className='cardArea'>
         <Capacity 
         kapacitet={solarData ? solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))].capacity_pr_panel_in_W : 1}
