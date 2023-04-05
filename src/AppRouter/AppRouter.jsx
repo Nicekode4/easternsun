@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Routes, useParams } from 'react-router-dom'
 import Navbar from '../Components/NavBar/Navbar'
 import FrontPage from '../Pages/FrontPage/FrontPage'
+import MobileMap from '../Pages/Map/Map'
 import Summary from '../Pages/Summary/Summary'
 import solarData from "../sun.json"
 
@@ -10,6 +11,7 @@ function AppRouter() {
   return (
     <Routes>
         <Route index element={<FrontPage />}></Route>
+        <Route path='map' element={<MobileMap />}></Route>
         {solarData.map(function(item, index){
           return (
             <Route key={index} path={`/:id`} element={<FrontPage />}></Route>
