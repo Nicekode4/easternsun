@@ -4,7 +4,7 @@ import Navbar from '../../Components/NavBar/Navbar'
 import { FrontPageStyle } from './FrontPage.style'
 import logo from '../../Images/logo-no-background.png'
 import solar from '../../Images/solar-panel.png'
-import solarData from "../../sun.json"
+import solarData from "../../solcelle.json"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -85,32 +85,35 @@ function FrontPage() {
       </div>
       <SummaryButton 
       SolarId={id}
-      Index={post?.indexOf(post?.find(c => c.sid == id))}
+      Index={solarData?.indexOf(solarData?.find(c => c.sid == id))}
       />
       <div className='panelArea'>
       {solarData.map(function(item, index){
         if (item.sid == id) {
           return (
-            <NavLink to={`/${item.sid}`} >
+            <NavLink to={`/${item.sid}`} key={index}>
             <div className='DaActive'>
           <img src={solar} alt="" />
-          <h2>{solarData[index].location}</h2>
-          <p>{solarData[index].Antal_solceller} paneler</p>
+          <h2>{solarData[index].address}</h2>
+          <p>{solarData[index].number_of_panels} paneler</p>
         </div>
         </NavLink>
           )
         }else{
-          return (
-            <NavLink to={`/${item.sid}`}>
+          if (index < 10) {
+                     return (
+            <NavLink to={`/${item.sid}`} key={index}>
             <div className='NotActive'>
           <img src={solar} alt="" />
-          <h2>{solarData[index].location}</h2>
-          <p>{solarData[index].Antal_solceller} paneler</p>
+          <h2>{solarData[index].address}</h2>
+          <p>{solarData[index].number_of_panels} paneler</p>
         </div>
         </NavLink>
           )
         }
-          })}
+          } 
+          }
+)}
       </div>
     </FrontPageStyle>
   )

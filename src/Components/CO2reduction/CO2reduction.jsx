@@ -5,7 +5,7 @@ function CO2reduction(probs) {
   return (
     <CO2reductionStyle>
       <img src="" alt="Image" />
-      <p>CO2 reduction</p>
+      <p>CO2 reduction i dag</p>
       <h2>{probs.co2} kg</h2>
     </CO2reductionStyle>
   )

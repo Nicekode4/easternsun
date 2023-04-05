@@ -1,12 +1,12 @@
 import React from 'react'
 import { TotalEnergyStyle } from './TotalEnergy.style'
 
-function TotalEnergy() {
+function TotalEnergy(probs) {
   return (
     <TotalEnergyStyle>
       <img src="" alt="Image" />
       <p>Total today</p>
-      <h2>18467344 kW</h2>
+      <h2>{probs.total.toFixed(1)} W</h2>
     </TotalEnergyStyle>
   )
 }

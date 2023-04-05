@@ -6,7 +6,7 @@ function Capacity(probs) {
     <CapacityStyle>
       <img src="" alt="Image" />
       <p>Capacity</p>
-      <h2>{probs.kapacitet} kW</h2>
+      <h2>{probs.kapacitet} W</h2>
     </CapacityStyle>
   )
 }
