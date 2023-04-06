@@ -47,6 +47,11 @@ p{
         background: #DFE5E5;
 border-radius: 40px;
 margin: 1rem;
+svg{
+    height: 3rem;
+    margin-top: 2rem;
+    margin-left: 0.5rem;
+}
 p{
     color: #DFE5E5;
 }
