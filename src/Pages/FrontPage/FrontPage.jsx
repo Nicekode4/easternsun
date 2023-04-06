@@ -140,7 +140,7 @@ const data = {
       <TotalEnergy 
       total={0}
       />
-      <NavLink>More</NavLink>
+      <NavLink to={`/summary/${id}`}>More</NavLink>
       </div>
     </FrontPageStyle>
   )
