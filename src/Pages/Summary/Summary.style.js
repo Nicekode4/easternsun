@@ -1,7 +1,26 @@
 import styled from "styled-components";
 
 export const SummaryStyle = styled.div`
-text-align: center;
+
+
+.backBtn{
+    text-align: left;
+    height: 5rem;
+    width: 5rem;
+}
+.cardAreaTop{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    margin-left: 2rem;
+    margin-right: 2rem;
+    text-align: center;
+}
+.spacer{
+    background-color:white;
+    height: 0.1rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
 header{
     display: grid;
     grid-template-columns: repeat(2,1fr);

@@ -4,7 +4,7 @@ import { PowerPeakStyle } from './PowerPeak.style'
 function PowerPeak(probs) {
   return (
     <PowerPeakStyle>
-      <img src="" alt="Image" />
+      {/* <img src="" alt="Image" /> */}
       <p>Power Peak</p>
       <h2>{probs.max.toFixed(0)} W</h2>
     </PowerPeakStyle>

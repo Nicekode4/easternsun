@@ -5,6 +5,8 @@ import { FrontPageStyle } from './FrontPage.style'
 import logo from '../../Images/logo-no-background.png'
 import solar from '../../Images/solar-panel.png'
 import solarData from "../../solcelle.json"
+import solarpanel2 from '../../Images/SolarPanel1.png'
+import solarpanel1 from '../../Images/solar-system.jpg'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -17,6 +19,8 @@ import {
 import { Bar } from 'react-chartjs-2';
 import SummaryButton from '../../Components/SummaryButton/SummaryButton'
 import axios from 'axios'
+import Capacity from '../../Components/Capacity/Capacity'
+import TotalEnergy from '../../Components/TotalEnergy/TotalEnergy'
 const numbers = [22,4,66,8,99,1,8,25,46,63,83,39,3,83]
 
 ChartJS.register(
@@ -31,10 +35,19 @@ ChartJS.register(
 
 
 function FrontPage() {
-  const { id } = useParams()
-  if (!id) {
-    window.location.replace(solarData[0].sid);
+  console.log(localStorage.getItem('MyId'));
+ const { id } = useParams()  
+ if (id !== localStorage.getItem('MyId')) {
+    window.location.reload() 
+    
   }
+  if (!id) {
+     window.location.replace(localStorage.getItem('MyId'));
+   } 
+   if (id == undefined) {
+    window.location.replace(solarData[0].sid);
+  } 
+
   let solarPanelData = solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))]
   const url = "https://admin.opendata.dk/api/3/action/datastore_search?resource_id=251528ca-8ec9-4b70-9960-83c4d0c4e7b6"
   const [post, setPost] = React.useState(null);
@@ -104,13 +117,13 @@ const data = {
     {
       label: '',
       data: todayMax,
-      backgroundColor: 'rgba(99, 109, 255, 0.5)',
+      backgroundColor: '#183948',
     },
   ],
 };
   return (
     <FrontPageStyle>
-      <img src={logo} alt="logo" />
+      <img src={solarpanel1} alt="Solar panel" className='topImg'/>
       <div className='revenueDiv'>
         <div>
           <h3>Dagens production</h3>
@@ -122,37 +135,12 @@ const data = {
         </div>
         
       </div>
-      <SummaryButton 
-      SolarId={id}
-      Index={solarData?.indexOf(solarData?.find(c => c.sid == id))}
+      <div className='cardArea'>
+      <Capacity />
+      <TotalEnergy 
+      total={0}
       />
-      <div className='panelArea'>
-      {solarData.map(function(item, index){
-        if (item.sid == id) {
-          return (
-            <NavLink to={`/${item.sid}`} key={index}>
-            <div className='DaActive'>
-          <img src={solar} alt="" />
-          <h2>{solarData[index].address}</h2>
-          <p>{solarData[index].number_of_panels} paneler</p>
-        </div>
-        </NavLink>
-          )
-        }else{
-          if (index < 10) {
-                     return (
-            <NavLink to={`/${item.sid}`} key={index}>
-            <div className='NotActive'>
-          <img src={solar} alt="" />
-          <h2>{solarData[index].address}</h2>
-          <p>{solarData[index].number_of_panels} paneler</p>
-        </div>
-        </NavLink>
-          )
-        }
-          } 
-          }
-)}
+      <NavLink>More</NavLink>
       </div>
     </FrontPageStyle>
   )

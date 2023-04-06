@@ -1,21 +1,29 @@
 import styled from "styled-components";
 
 export const FrontPageStyle = styled.article`
-color: white;
-height: 62rem;
-img{
-    height: 10vh;
-    margin-left: 4rem;
+color: #183948;
+height: 63rem;
+.topImg{
+    height: 30rem;
+    width: 100%;
+    border-radius: 0px 0px 80px 80px;
+    
 }
 p{
-    color: white;
+    color: #183948;
 }
 .revenueDiv{
-    margin-top: 25vh;
-    
-    background-color: #252933;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    margin-top: 1rem;
+    border-radius: 40px;
+    background-color: #A0E150;
 
     div{
+        
+        margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    margin-top: 0.5rem;
         display: grid;
         grid-template-columns: repeat(2,1fr);
         padding: 0.5rem;
@@ -26,39 +34,25 @@ p{
             text-align: end;
             margin-right: 0.5rem;
         }
+
     }
 }
-.panelArea{
-    a{
-        text-decoration: none;
-        color: white;
-    }
+.cardArea{
     display: grid;
-    grid-template-columns: repeat(21,1fr);
-    overflow: scroll;
-    height: auto;
-
-    div{
-        
-        margin: 0.5rem;
-        width: 10rem;
-        
-        padding: 1rem;
-        font-size: 13px;
-        text-align: center;
-        p{
-            font-size: 20px;
-        }
-        img{
-            height: 10vh;
-            margin-left: 1vw;
-        }
-        
-    }    
-    .active{
-    background-color: green;
+        grid-template-columns: 40% 40% 20%;
+    margin-top: 0.5rem;
     
+    width: 100%;
+    a{
+        background: #DFE5E5;
+border-radius: 40px;
+margin: 1rem;
+p{
+    color: #DFE5E5;
 }
+h2{
+    color: #DFE5E5;
 }
-
+    }
+}
 `

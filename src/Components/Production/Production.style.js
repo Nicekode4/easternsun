@@ -1,18 +1,24 @@
 import styled from "styled-components";
 
 export const ProductionStyle = styled.div`
-padding-top: 5vh;
-padding-bottom: 15vh;
 font-size: 35px;
+background-color: #A0E150;
+padding: 1rem;
+margin: 2rem;
+text-align: center;
+border-radius: 30px;
 h2{
-    margin-bottom: 0;
-    color: white;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    color: #183948;
+    padding-top: ;
 
 }
 p{
-    color: gray;
+    color: #183948;
     font-size: 20px;
-    margin-top: 0;
     padding-top: 0;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
 }
 `

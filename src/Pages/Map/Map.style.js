@@ -3,8 +3,7 @@ import styled from "styled-components";
 
 export const MapStyle = styled.article`
 h2,h3{
-    text-align: center;
-    color: $blue;
+    text-align: center;;
 }
 img{
     height: 8rem;

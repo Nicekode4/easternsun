@@ -3,11 +3,13 @@ import React, { useState } from 'react'
 import { NavLink, useParams } from 'react-router-dom'
 import Capacity from '../../Components/Capacity/Capacity'
 import CO2reduction from '../../Components/CO2reduction/CO2reduction'
+import { LineChart } from '../../Components/LineChart/LineChart'
 import PowerPeak from '../../Components/PowerPeak/PowerPeak'
 import Production from '../../Components/Production/Production'
 import TotalEnergy from '../../Components/TotalEnergy/TotalEnergy'
 import TotalYeld from '../../Components/TotalYeld/TotalYeld'
 import solarData from "../../solcelle.json"
+import back from "../../Images/arrow.png"
 import { SummaryStyle } from './Summary.style'
 let eff = 0.20 // 20%
 let cloudcover = 5
@@ -51,6 +53,21 @@ function Summary() {
   let foundApi = []
   let foundLocal = []
   const { id } = useParams()
+  if (id !== localStorage.getItem('MyId')) {
+    window.location.reload() 
+    
+  }
+  if (id !== localStorage.getItem('MyId')) {
+    localStorage.setItem('MyId', id) 
+  }
+  setTimeout(() => {
+    
+   
+   console.log("lle", localStorage.getItem('MyId'));
+   console.log("SET!");
+   console.log("llew", localStorage.getItem('MyId'));
+  }, 0);
+  
   let solarPanelData = solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))]
   const url = ""
   const [post, setPost] = React.useState(null);
@@ -118,31 +135,42 @@ console.log(g3.toFixed(0));
   if (post) {
     return (
       <SummaryStyle>
-        <header>
+        <NavLink to={`/${localStorage.getItem('MyId')}`}><img className="backBtn" src={back} alt="back" /></NavLink>
+                {/* <header>
         <p>☁️ {post?.hourly.cloudcover[new Date().getHours()]}%</p>
         <p>☀️ {NewHoursOfSun.toFixed(1)} T</p>
-        </header>
-        
+        </header> */}
         <Production 
         Wh= {new Date().getHours() >= new Date(post?.daily.sunset[0]).getHours() || new Date().getHours() < new Date(post?.daily.sunrise[0]).getHours() ? 0 : !NewCloudcover == 0 ? g3.toFixed(0) : (solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels).toFixed(0)}
         
         />
-  
+        <div className='cardAreaTop'>
+        <CO2reduction 
+        co2={calculateCO2Reduction(todayProduction, carbonIntensity).toFixed(1)}
+        />
+        <PowerPeak 
+        max={Math.max.apply(null, todayMax)}
+        />  
+        </div>        
+
+
+        <div className='spacer'></div>
+        
+        <LineChart 
+        production={[1,22,11,34,42,54,5,41,1]}
+        labels={[1,2,3,4,5,6,7,8]}
+        />
       
-        <div className='cardArea'>
+        {/* <div className='cardArea'>
         <Capacity 
         kapacitet={solarData ? solarPanelData.capacity_pr_panel_in_W : 1}
         />
         <TotalEnergy 
         total={todayProduction}
         />
-        <CO2reduction 
-        co2={calculateCO2Reduction(todayProduction, carbonIntensity).toFixed(1)}
-        />
-        <PowerPeak 
-        max={Math.max.apply(null, todayMax)}
-        />
-        </div>
+
+
+        </div> */}
   
       </SummaryStyle>
     )
