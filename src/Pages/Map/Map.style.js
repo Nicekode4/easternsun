@@ -1,9 +1,10 @@
-
+import "../../__colors.scss"
 import styled from "styled-components";
 
 export const MapStyle = styled.article`
 h2,h3{
     text-align: center;
+    color: $blue;
 }
 img{
     height: 8rem;
