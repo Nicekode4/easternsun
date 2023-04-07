@@ -37,16 +37,16 @@ ChartJS.register(
 function FrontPage() {
   console.log(localStorage.getItem('MyId'));
  const { id } = useParams()  
- if (id !== localStorage.getItem('MyId')) {
-    window.location.reload() 
+  if (!id == localStorage.getItem('MyId')) {
+     window.location.reload() 
     
   }
   if (!id) {
-     window.location.replace(localStorage.getItem('MyId'));
+      window.location.replace(localStorage.getItem('MyId'));
    } 
-   if (id == undefined) {
-    window.location.replace(solarData[0].sid);
-  } 
+    if (id && localStorage.getItem('MyId') == undefined) {
+     window.location.replace(solarData[0].sid);
+   } 
 
   let solarPanelData = solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))]
   const url = "https://admin.opendata.dk/api/3/action/datastore_search?resource_id=251528ca-8ec9-4b70-9960-83c4d0c4e7b6"
