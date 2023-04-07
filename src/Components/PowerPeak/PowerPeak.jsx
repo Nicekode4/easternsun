@@ -6,7 +6,7 @@ function PowerPeak(probs) {
     <PowerPeakStyle>
       {/* <img src="" alt="Image" /> */}
       <p>Power Peak</p>
-      <h2>{probs.max.toFixed(0)} W</h2>
+      <h2>{probs.max.toFixed(0)} kW</h2>
     </PowerPeakStyle>
   )
 }

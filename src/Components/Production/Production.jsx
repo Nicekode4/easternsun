@@ -5,7 +5,7 @@ function Production(probs) {
   return (
     <ProductionStyle>
       <p>Produktion lige nu</p>
-        <h2>{probs.Wh} Wh</h2>
+        <h2>{probs.Wh.toLocaleString('de-DE')} kWh</h2>
         
     </ProductionStyle>
   )
