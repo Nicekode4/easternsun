@@ -21,23 +21,7 @@ export const SummaryStyle = styled.div`
     margin-top: 2rem;
     margin-bottom: 2rem;
 }
-header{
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    color: white;
-    
-    
-    p{
-        text-align: center;
-        border-radius: 30px;
-        width: 10rem;
-        padding: 0.5rem;
-        margin-top: 0.5rem;
-        font-size: 35px;
-        background-color: #252933;
 
-    }
-}
 .cardArea{
     display: grid;
     grid-template-columns: repeat(2,1fr);

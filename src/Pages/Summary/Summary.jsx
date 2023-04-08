@@ -112,10 +112,7 @@ console.log("The sun's angle is " + azimuth.toFixed(2) + " degrees.");
     return (
       <SummaryStyle>
         <NavLink to={`/${localStorage.getItem('MyId')}`}><img className="backBtn" src={back} alt="back" /></NavLink>
-                {/* <header>
-        <p>☁️ {post?.hourly.cloudcover[new Date().getHours()]}%</p>
-        <p>☀️ {NewHoursOfSun.toFixed(1)} T</p>
-        </header> */}
+
         <Production 
         Wh= {0}
         

@@ -124,6 +124,10 @@ const data = {
   return (
     <FrontPageStyle>
       <img src={solarpanel1} alt="Solar panel" className='topImg'/>
+                      <header>
+        <p>☁️ {post?.hourly.cloudcover[new Date().getHours()]}%</p>
+        <p>☀️ {NewHoursOfSun.toFixed(1)} T</p>
+        </header>
       <div className='revenueDiv'>
         <div>
           <h3>Dagens production</h3>

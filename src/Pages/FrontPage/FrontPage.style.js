@@ -37,6 +37,27 @@ p{
 
     }
 }
+header{
+    position: absolute;
+    top: 0;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    
+    
+    p{
+        color: #183948;
+        text-align: center;
+        margin-right: 0.5rem;
+        margin-left: 0.5rem;
+        border-radius: 30px;
+        width: 10rem;
+        padding: 0.5rem;
+        margin-top: 0.5rem;
+        font-size: 35px;
+        
+
+    }
+}
 .cardArea{
     display: grid;
         grid-template-columns: 40% 40% 20%;
