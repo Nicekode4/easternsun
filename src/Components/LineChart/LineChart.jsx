@@ -54,6 +54,12 @@ export function LineChart(probs) {
             borderColor: '#a0e15089',
             backgroundColor: '#A0E150',
           },
+          {
+            label: 'Cloudcover',
+            data: probs.clouds,
+            borderColor: '#509be188',
+            backgroundColor: '#3786ee',
+          },
         ],
       };
   return (

@@ -32,7 +32,69 @@ ChartJS.register(
   Legend
 );
 
+function calculateSolarIrradiance(latitude, timeOfDay, dayOfYear, panelTilt) {
+  // Convert latitude to radians
+  let latRadians = latitude * Math.PI / 180;
+  
+  // Calculate the solar declination angle in radians
+  let solarDeclination = 23.45 * Math.PI / 180 * Math.sin(2 * Math.PI * (284 + dayOfYear) / 365);
+  
+  // Calculate the solar hour angle in radians
+  let solarHourAngle = Math.PI / 12 * (timeOfDay - 12) + (Math.PI / 180 * 15) * (0.172 * Math.sin(0.9856 * (dayOfYear - 2) * Math.PI / 180 - 1.43));
+  
+  // Calculate the solar zenith angle in radians
+  let solarZenithAngle = Math.acos(Math.sin(latRadians) * Math.sin(solarDeclination) + Math.cos(latRadians) * Math.cos(solarDeclination) * Math.cos(solarHourAngle));
+  
+  // Calculate the solar irradiance in W/m^2
+  let solarIrradiance = 1361 * Math.cos(solarZenithAngle) * Math.cos(panelTilt * Math.PI / 180);
+  
+  // Return the solar irradiance
+  return solarIrradiance;
+}
 
+//Calculates the direction the sun is shining
+function calculateSunAzimuth(latitude) {
+  let d = new Date();
+  let h = (d.getHours() + d.getMinutes() / 60 - 12) * (Math.PI / 12);
+  let delta = 23.45 * Math.sin((2 * Math.PI / 365) * (284 + d.getDate()));
+  let phi = latitude * (Math.PI / 180);
+  let numerator = Math.sin(h);
+  let denominator = Math.cos(h) * Math.sin(phi) - Math.tan(delta) * Math.cos(phi);
+  let theta = Math.atan2(numerator, denominator) * (180 / Math.PI);
+  return parseInt((theta + 360)) % 360;
+}
+
+//Calculates the day of the year
+function dayOfYear() {
+  let now = new Date();
+let start = new Date(now.getFullYear(), 0, 0);
+let diff = now - start;
+let oneDay = 1000 * 60 * 60 * 24;
+
+return Math.floor(diff / oneDay);
+}
+
+//Calculates how many hours of light there is in a day
+function hoursOfDay(sunset, sunrise) {
+    // Set the two times to subtract
+  let time1 = new Date(sunrise);
+  let time2 = new Date(sunset);  
+// Subtract one hour from time1
+time1.setHours(time1.getHours() - 1);
+
+// Calculate the difference in minutes between the two times
+  return Math.abs(time2 - time1) / (1000 * 60 * 60);
+}
+
+function calculateSolarEnergyProduced(capacity, hoursOfSunlight, efficiency) {
+  // Convert capacity from watts to kilowatts
+  capacity = capacity / 1000;
+
+  // Calculate energy produced in kilowatt-hours
+  let energyProduced = capacity * hoursOfSunlight * efficiency;
+
+  return energyProduced
+}
 
 function FrontPage() {
   console.log(localStorage.getItem('MyId'));
@@ -75,24 +137,20 @@ time1.setHours(time1.getHours() - 1);
 
 // Calculate the difference in minutes between the two times
 var diffInMinutes = Math.abs(time2 - time1) / (1000 * 60 * 60).toFixed(0);
-let NewCloudcover = post?.hourly.cloudcover[new Date().getHours()] / 100
-console.log(new Date(post?.daily.sunset[0]));
-let NewHoursOfSun = diffInMinutes - (NewCloudcover * diffInMinutes)
-let todayMax = []
-let labels = []
-console.log("The difference in hours between the two times is: " + diffInMinutes);
-    console.log(diffInMinutes - NewCloudcover * diffInMinutes);
-    let todayProduction = 0
-    for (let index = 0; index < new Date().getHours() + 1; index++) {
-      const element = post?.hourly.cloudcover[index];
-          todayProduction = todayProduction + !NewCloudcover == 0 ? g2 - element / 100 * solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels : solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels
-    }
 
-    for (let index = new Date().getHours() - 6; index < new Date().getHours() + 1; index++) {
-      const element = post?.hourly.cloudcover[index];
-      todayMax.push(!NewCloudcover == 0 ? g2 - element / 100 * solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels : solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels)
-      labels.push(index)
-    }
+
+
+let ChartProduction = []
+let ProductionTotal = 0
+let clouds = []
+let labels = []
+for (let index = new Date(post?.daily.sunrise[0]).getHours(); index < new Date(post?.daily.sunset[0]).getHours() + 1; index++) {
+  const element = post?.hourly.cloudcover[index] / 100;
+  clouds.push(element * 100)
+  ProductionTotal = ProductionTotal + calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, hoursOfDay(post?.daily.sunset[0], post?.daily.sunrise[0]) ,solarPanelData.effecincy) * element
+  ChartProduction.push(calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, hoursOfDay(post?.daily.sunset[0], post?.daily.sunrise[0]) ,solarPanelData.effecincy) * element.toFixed(1))
+  labels.push(index)
+}
   
 //console.log(post);
 const options = {
@@ -112,11 +170,11 @@ const options = {
 
 const data = {
   labels,
-  todayMax,
+  ChartProduction,
   datasets: [
     {
       label: '',
-      data: todayMax,
+      data: ChartProduction,
       backgroundColor: '#183948',
     },
   ],
@@ -142,7 +200,7 @@ const data = {
       <div className='cardArea'>
       <Capacity />
       <TotalEnergy 
-      total={0}
+      total={ProductionTotal}
       />
       <NavLink to={`/summary/${id}`}>  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
     <path d="M350 177.5c3.8-8.8 2-19-4.6-26l-136-144C204.9 2.7 198.6 0 192 0s-12.9 2.7-17.4 7.5l-136 144c-6.6 7-8.4 17.2-4.6 26S46.5 192 56 192h88v192c0 17.7-14.3 32-32 32H32c-17.7 0-32 14.3-32 32v32c0 17.7 14.3 32 32 32h80c70.7 0 128-57.3 128-128V192h88c9.6 0 18.2-5.7 22-14.5z" />

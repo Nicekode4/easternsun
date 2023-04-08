@@ -21,7 +21,7 @@ function calculateCO2Reduction(energyProduction, carbonIntensity) {
   // Calculate CO2 reduction in kilograms
   let co2Reduction = energyProduction * carbonIntensity;
   
-  return co2Reduction;
+  return co2Reduction * 1000;
 }
 
 //Calculates how much sunlight reaches the panel
@@ -76,7 +76,17 @@ function hoursOfDay(sunset, sunrise) {
 time1.setHours(time1.getHours() - 1);
 
 // Calculate the difference in minutes between the two times
-  return Math.abs(time2 - time1) / (1000 * 60 * 60).toFixed(0);
+  return Math.abs(time2 - time1) / (1000 * 60 * 60);
+}
+
+function calculateSolarEnergyProduced(capacity, hoursOfSunlight, efficiency) {
+  // Convert capacity from watts to kilowatts
+  capacity = capacity / 1000;
+
+  // Calculate energy produced in kilowatt-hours
+  let energyProduced = capacity * hoursOfSunlight * efficiency;
+
+  return energyProduced
 }
 
 function Summary() {
@@ -102,27 +112,37 @@ function Summary() {
     console.log(weatherData);
   }
 getOpenWeather() 
-  
   }, [id]);
 
 
-let azimuth = calculateSunAzimuth(solarPanelData.Latitude);
-console.log("The sun's angle is " + azimuth.toFixed(2) + " degrees.");
+  let ChartProduction = []
+  let ProductionTotal = 0
+  let clouds = []
+  let labels = []
+  for (let index = new Date(post?.daily.sunrise[0]).getHours(); index < new Date(post?.daily.sunset[0]).getHours() + 1; index++) {
+    const element = post?.hourly.cloudcover[index] / 100;
+    clouds.push(element * 100)
+    ProductionTotal = ProductionTotal + calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, hoursOfDay(post?.daily.sunset[0], post?.daily.sunrise[0]) ,solarPanelData.effecincy) * element
+    ChartProduction.push(calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, hoursOfDay(post?.daily.sunset[0], post?.daily.sunrise[0]) ,solarPanelData.effecincy) * element.toFixed(1))
+    labels.push(index)
+  }
+  console.log(ChartProduction);
+console.log(calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, calculateSolarIrradiance(solarPanelData.Latitude, new Date().getHours(), dayOfYear(), solarPanelData.inclination), solarPanelData.effecincy));
   if (post) {
     return (
       <SummaryStyle>
         <NavLink to={`/${localStorage.getItem('MyId')}`}><img className="backBtn" src={back} alt="back" /></NavLink>
 
         <Production 
-        Wh= {0}
+        Wh={!new Date().getHours() > new Date(post?.daily.sunset[0]).getHours() || new Date().getHours() < new Date(post?.daily.sunrise[0]).getHours() ? (calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, hoursOfDay(post?.daily.sunset[0], post?.daily.sunrise[0]) ,solarPanelData.effecincy) * post?.hourly.cloudcover[new Date().getHours()] / 100).toFixed(1) : 0}
         
         />
         <div className='cardAreaTop'>
         <CO2reduction 
-        co2={calculateCO2Reduction(1, 0.1).toFixed(1)}
+        co2={calculateCO2Reduction(ProductionTotal, 0.5).toFixed(1)}
         />
         <PowerPeak 
-        max={Math.max.apply(null, [1000, 1]) / 1000}
+        max={Math.max.apply(null, ChartProduction)}
         />  
         </div>        
 
@@ -130,8 +150,9 @@ console.log("The sun's angle is " + azimuth.toFixed(2) + " degrees.");
         <div className='spacer'></div>
         
         <LineChart 
-        production={[40,50,33,40,50]}
-        labels={[1,2,3,4,5,6]}
+        production={ChartProduction}
+        clouds={clouds}
+        labels={labels}
         />
       
         {/* <div className='cardArea'>
