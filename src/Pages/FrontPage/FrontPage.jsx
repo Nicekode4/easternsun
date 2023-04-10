@@ -184,7 +184,7 @@ const data = {
       <img src={solarpanel1} alt="Solar panel" className='topImg'/>
                       <header>
         <p>☁️ {post?.hourly.cloudcover[new Date().getHours()]}%</p>
-        <p>☀️ {hoursOfDay().toFixed(1)} T</p>
+        <p>☀️ {hoursOfDay(time2, time1).toFixed(1)} T</p>
         </header>
       <div className='revenueDiv'>
         <div>
