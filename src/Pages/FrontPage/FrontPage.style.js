@@ -2,16 +2,14 @@ import styled from "styled-components";
 
 export const FrontPageStyle = styled.article`
 color: #183948;
-height: 63rem;
+height: 67rem;
 .topImg{
     height: 30rem;
     width: 100%;
     border-radius: 0px 0px 80px 80px;
     
 }
-p{
-    color: #183948;
-}
+
 .revenueDiv{
     margin-left: 0.5rem;
     margin-right: 0.5rem;
