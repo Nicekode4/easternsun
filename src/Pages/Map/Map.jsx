@@ -118,6 +118,7 @@ function MobileMap() {
             <h2>{marker.address}</h2>
             <h3>Kapacitet: {marker.capacity_pr_panel_in_W} W</h3>
             <h3>Paneler: {marker.number_of_panels}</h3>
+            <NavLink to={`/${marker.sid}`}>Se mere</NavLink>
             </Popup>
           </Marker>)
 

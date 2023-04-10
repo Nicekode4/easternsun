@@ -9,4 +9,8 @@ img{
     height: 8rem;
     width: 12rem;
 }
+a{
+    margin-left: 4rem;
+    font-size: large;
+}
 `
