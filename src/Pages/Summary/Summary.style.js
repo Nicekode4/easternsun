@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 export const SummaryStyle = styled.div`
-
-
+height: 124vh;
 .backBtn{
     text-align: left;
     height: 5rem;

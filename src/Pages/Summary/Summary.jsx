@@ -123,7 +123,8 @@ getOpenWeather()
     const element = post?.hourly.cloudcover[index] / 100;
     clouds.push(element * 100)
     ProductionTotal = ProductionTotal + calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, hoursOfDay(post?.daily.sunset[0], post?.daily.sunrise[0]) ,solarPanelData.effecincy) * element
-    ChartProduction.push(calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, hoursOfDay(post?.daily.sunset[0], post?.daily.sunrise[0]) ,solarPanelData.effecincy) * element.toFixed(1))
+    
+    ChartProduction.push(parseInt(calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, hoursOfDay(post?.daily.sunset[0], post?.daily.sunrise[0]) ,solarPanelData.effecincy) * element))
     labels.push(index)
   }
   console.log(ChartProduction);
