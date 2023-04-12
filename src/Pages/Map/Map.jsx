@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import windmillData from '../../solcelle.json'
-import icon from '../../Images/2776000.png'
+import icon from '../../Images/solar-panel.png'
 import big from '../../Images/big.jpg'
 import medium from '../../Images/medium.jpg'
 import small from '../../Images/small.jpg'

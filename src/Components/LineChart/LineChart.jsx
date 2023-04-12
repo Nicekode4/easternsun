@@ -25,7 +25,7 @@ ChartJS.register(
 
 
 
-export function LineChart(probs) {
+export function LineChart(props) {
   const { id } = useParams()
 
   console.log(id);
@@ -43,20 +43,20 @@ export function LineChart(probs) {
         },
       };
       
-      const labels = probs.labels
+      const labels = props.labels
       
       const data = {
         labels,
         datasets: [
           {
             label: 'Production i kW',
-            data: probs.production,
+            data: props.production,
             borderColor: '#a0e15089',
             backgroundColor: '#A0E150',
           },
           {
             label: 'Cloudcover i %',
-            data: probs.clouds,
+            data: props.clouds,
             borderColor: '#509be188',
             backgroundColor: '#3786ee',
           },
