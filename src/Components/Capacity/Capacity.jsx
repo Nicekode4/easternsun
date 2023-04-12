@@ -6,8 +6,10 @@ function Capacity(props) {
   return (
     <CapacityStyle>
       <img src={capacity} alt="Image" />
-      <p>Capacity</p>
+
+      <p>Kapacitet</p>
       <h2>{props.kapacitet} W</h2>
+
     </CapacityStyle>
   )
 }

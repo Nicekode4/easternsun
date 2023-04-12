@@ -119,7 +119,7 @@ getOpenWeather()
   let ProductionTotal = 0
   let clouds = []
   let labels = []
-  for (let index = new Date(post?.daily.sunrise[0]).getHours(); index < new Date(post?.daily.sunset[0]).getHours() + 1; index++) {
+  for (let index = new Date(post?.daily.sunrise[0]).getHours() >= 23 ? 0 : new Date(post?.daily.sunrise[0]).getHours(); index < new Date(post?.daily.sunset[0]).getHours() + 1; index++) {
     const element = post?.hourly.cloudcover[index] / 100;
     clouds.push(element * 100)
     ProductionTotal = ProductionTotal + calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, hoursOfDay(post?.daily.sunset[0], post?.daily.sunrise[0]) ,solarPanelData.effecincy) * element
@@ -135,7 +135,7 @@ console.log(calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, 
         <NavLink to={`/${localStorage.getItem('MyId')}`}><img className="backBtn" src={back} alt="back" /></NavLink>
 
         <Production 
-        Wh={!new Date().getHours() > new Date(post?.daily.sunset[0]).getHours() || new Date().getHours() < new Date(post?.daily.sunrise[0]).getHours() ? (calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, hoursOfDay(post?.daily.sunset[0], post?.daily.sunrise[0]) ,solarPanelData.effecincy) * post?.hourly.cloudcover[new Date().getHours()] / 100).toFixed(1) : 0}
+        Wh={!new Date().getHours() < new Date(post?.daily.sunset[0]).getHours() || new Date().getHours() > new Date(post?.daily.sunrise[0]).getHours() ? (calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, hoursOfDay(post?.daily.sunset[0], post?.daily.sunrise[0]) ,solarPanelData.effecincy) * post?.hourly.cloudcover[new Date().getHours()] / 100).toFixed(1) : 0}
         
         />
         <div className='cardAreaTop'>
