@@ -6,7 +6,7 @@ function CO2reduction(probs) {
     <CO2reductionStyle>
       {/* <img src="" alt="Image" /> */}
       <p>Sparet CO2 i dag</p>
-      <h2>{probs.co2} <span>g</span> </h2>
+      <h2>{probs.co2 > 1000 ? (probs.co2 / 1000).toFixed(1) + " kg": probs.co2 + " g"} </h2>
     </CO2reductionStyle>
   )
 }
