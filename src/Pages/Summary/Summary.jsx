@@ -135,7 +135,7 @@ getOpenWeather()
         <NavLink to={`/${localStorage.getItem('MyId')}`}><img className="backBtn" src={back} alt="back" /></NavLink>
 
         <Production 
-        Wh={new Date().getHours() < new Date(post?.daily.sunset[0]).getHours() && new Date().getHours() > new Date(post?.daily.sunrise[0]).getHours() ? (calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W,solarPanelData.number_of_panels ,solarPanelData.effecincy)) : 0}
+        Wh={new Date().getHours() < new Date(post?.daily.sunset[0]).getHours() && new Date().getHours() > new Date(post?.daily.sunrise[0]).getHours() ? (calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W,solarPanelData.number_of_panels ,solarPanelData.effecincy) * (1 - (post?.hourly.cloudcover[new Date().getHours()] / 100))) : 0}
         
         />
         <div className='cardAreaTop'>
