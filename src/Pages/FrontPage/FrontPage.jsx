@@ -86,12 +86,12 @@ time1.setHours(time1.getHours() - 1);
   return Math.abs(time2 - time1) / (1000 * 60 * 60);
 }
 
-function calculateSolarEnergyProduced(capacity, hoursOfSunlight, efficiency) {
+function calculateSolarEnergyProduced(capacity, numberOfPanels, efficiency) {
   // Convert capacity from watts to kilowatts
   capacity = capacity / 1000;
 
   // Calculate energy produced in kilowatt-hours
-  let energyProduced = capacity * hoursOfSunlight * efficiency;
+  let energyProduced = (capacity * numberOfPanels) * efficiency / 100;
 
   return energyProduced
 }
@@ -145,10 +145,10 @@ let ProductionTotal = 0
 let clouds = []
 let labels = []
 for (let index = new Date(post?.daily.sunrise[0]).getHours(); index < new Date(post?.daily.sunset[0]).getHours() + 1; index++) {
-  const element = post?.hourly.cloudcover[index] / 100;
+  const element = 1 - (post?.hourly.cloudcover[index] / 100);
   clouds.push(element * 100)
-  ProductionTotal = ProductionTotal + calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, hoursOfDay(post?.daily.sunset[0], post?.daily.sunrise[0]) ,solarPanelData.effecincy) * element
-  ChartProduction.push(parseInt(calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, hoursOfDay(post?.daily.sunset[0], post?.daily.sunrise[0]) ,solarPanelData.effecincy) * element.toFixed(1)))
+  ProductionTotal = ProductionTotal + calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W,solarPanelData.number_of_panels, solarPanelData.effecincy) * element + 0.10
+  ChartProduction.push((calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W,solarPanelData.number_of_panels, solarPanelData.effecincy) * element + 0.10).toFixed(1))
   labels.push(index)
 }
   
@@ -173,10 +173,11 @@ const data = {
   ChartProduction,
   datasets: [
     {
-      label: '',
+      label: 'Produktion i kWh',
       data: ChartProduction,
       backgroundColor: '#183948',
     },
+
   ],
 };
   return (
@@ -189,7 +190,7 @@ const data = {
       <div className='revenueDiv'>
         <div>
           <h3>Dagens production</h3>
-          <h2>{ProductionTotal.toFixed(1)} Wh</h2>
+          <h2>{ProductionTotal.toFixed(1)} kWh</h2>
         </div>
         <div>
           <Bar options={options} data={data} />;
