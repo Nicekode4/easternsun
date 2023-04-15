@@ -49,13 +49,13 @@ export function LineChart(props) {
         labels,
         datasets: [
           {
-            label: 'Production i kW',
+            label: 'Produktion i kWh',
             data: props.production,
             borderColor: '#a0e15089',
             backgroundColor: '#A0E150',
           },
           {
-            label: 'Cloudcover i %',
+            label: 'Skydække i %',
             data: props.clouds,
             borderColor: '#509be188',
             backgroundColor: '#3786ee',
