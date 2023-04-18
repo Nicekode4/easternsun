@@ -14,7 +14,7 @@ function AngleComponent() {
       window.removeEventListener("deviceorientation", handleOrientation);
     };
   }, []);
-
+window.localStorage.setItem('myAngle', angle)
   return <div>{angle != null ? `Device angle: ${angle}` : "Loading..."}</div>;
 }
 

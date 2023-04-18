@@ -58,15 +58,17 @@ const Camera = () => {
       setAngle(angleInDegrees);
     }
   };
-
+function savedAngle(params) {
+    alert('saved angle: ' + window.localStorage.getItem('myAngle'))
+}
   return (
     <div>
+        <video ref={videoRef} autoPlay muted style={{ width: '100vw', height: '100vh' }} />
         <AngleComponent />
+        <button onClick={savedAngle}>leeeeeeed</button>
         <DragLine />
-      <video ref={videoRef} autoPlay muted style={{ width: '500px', height: '500px' }} />
-      <canvas ref={canvasRef} style={{ display: 'none' }} />
-      <button style={{ position: 'absolute', top: "10vh", left: "10vw"}} onClick={calculateAngle}>Measure angle</button>
-      <p>{`Angle: ${angle} degrees`}</p>
+        
+      
       
     </div>
   );
