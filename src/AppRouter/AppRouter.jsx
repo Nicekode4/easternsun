@@ -6,6 +6,7 @@ import MobileMap from '../Pages/Map/Map'
 import SolarPanels from '../Pages/SolarPanels/SolarPanels'
 import Summary from '../Pages/Summary/Summary'
 import solarData from "../sun.json"
+import Camera from '../Pages/Camera/Camera'
 
 function AppRouter() {
   const { id } = useParams();
@@ -15,6 +16,7 @@ function AppRouter() {
         <Route index element={<FrontPage />}></Route>
         <Route path='map' element={<MobileMap />}></Route>
         <Route path='select' element={<SolarPanels />}></Route>
+        <Route path='cam' element={<Camera />}></Route>
         {solarData.map(function(item, index){
           return (
             <Route key={index} path={`/:id`} element={<FrontPage />}></Route>

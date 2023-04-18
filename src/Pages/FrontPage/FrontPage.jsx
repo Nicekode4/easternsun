@@ -124,9 +124,9 @@ function FrontPage() {
     }
   getOpenWeather() 
   }, [id]);
-  let g1 = solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels * post?.hourly.cloudcover[new Date().getHours()] / 100
-let g2 = solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels
-let g3 = g2 - g1
+// //   let g1 = solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels * post?.hourly.cloudcover[new Date().getHours()] / 100
+// // let g2 = solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels
+// // let g3 = g2 - g1
   console.log(new Date(22.00).getHours());
     // Set the two times to subtract
 var time1 = new Date(post?.daily.sunrise[0]);
