@@ -7,7 +7,7 @@ function PowerPeak(props) {
       {/* <img src="" alt="Image" /> */}
 
       <p>Højeste effekt</p>
-      <h2>{props.max.toFixed(0) == 0 ? props.max.toFixed(2) : props.max.toFixed(0)} kWh</h2>
+      <h2>{props.max.toFixed(1) == 0 ? props.max.toFixed(2) : props.max.toFixed(1)} kWh</h2>
 
     </PowerPeakStyle>
   )
