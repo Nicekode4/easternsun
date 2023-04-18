@@ -20,16 +20,17 @@ const Camera = () => {
         
         // calculate the power production
         const powerProduction = panelCapacity * tiltCosine * Math.cos(angleOfIncidence);
-        setOutput(powerProduction)
+        setOutput(powerProduction.toFixed(1))
         return powerProduction;
       }
 function handleChange(e) {
     console.log(e);
-    setValue(300 * e.target.value)
+    setValue(e.target.value)
+    calculateSolarPanelPowerProduction(!window.localStorage.getItem("myAngle") ? window.localStorage.getItem("myAngle") : 10 , 75,300 * value)
 }      
-function savedAngle(params) {
+function savedAngle() {
     
-    calculateSolarPanelPowerProduction(window.localStorage.getItem("myAngle") ? window.localStorage.getItem("myAngle") : 10 , 75, value)
+    calculateSolarPanelPowerProduction(!window.localStorage.getItem("myAngle") ? window.localStorage.getItem("myAngle") : 10 , 75,300 * value)
 }
 
   return (
@@ -44,8 +45,8 @@ function savedAngle(params) {
             top: "2rem",
             }}></div>
         <AngleComponent />
-        <h2>Anlægget vil her lave {output} W</h2>
-        <label htmlFor="paneler"></label>
+        <h2>Anlægget vil her vil have {value} paneler og lave {output} Wh i timen på en dag som idag</h2>
+        <label htmlFor="paneler">Antal paneler</label>
         <select onChange={handleChange} name="paneler" id="paneler">
             <option value="1">1</option>
             <option value="2">2</option>
