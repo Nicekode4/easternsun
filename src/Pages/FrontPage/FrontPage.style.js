@@ -38,8 +38,12 @@ height: 67rem;
 header{
     position: absolute;
     top: 0;
-    display: grid;
+    text-align: center;
+    div{
+        display: grid;
     grid-template-columns: repeat(2,1fr);
+    }
+
     
     
     p{

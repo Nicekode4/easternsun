@@ -184,8 +184,12 @@ const data = {
     <FrontPageStyle>
       <img src={solarpanel1} alt="Solar panel" className='topImg'/>
                       <header>
-        <p>☁️ {post?.hourly.cloudcover[new Date().getHours()]}%</p>
+                        <h2>{solarPanelData.address}</h2>
+              <div>
+                        <p>☁️ {post?.hourly.cloudcover[new Date().getHours()]}%</p>
         <p>☀️ {hoursOfDay(time2, time1).toFixed(1)} T</p>
+              </div>
+
         </header>
       <div className='revenueDiv'>
         <div>
