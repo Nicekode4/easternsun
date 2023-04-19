@@ -14,6 +14,21 @@
   "effecincy": 15,
   "isOffline": false
 },
+    {
+"id": 65,
+  "sid": 100002,
+  "magistrat": "",
+  "address": "Holmevej ved Hemmet",
+  "number_of_panels": 161731,
+  "capacity_pr_panel_in_W": 99,
+  "max production in one hour": 16000000,
+  "Longtitude": 8.319818,
+  "Latitude": 55.851483,
+  "direction": 270,
+  "inclination": 170,
+  "effecincy": 15,
+  "isOffline": false
+},
 
   {
     "id": 21,
