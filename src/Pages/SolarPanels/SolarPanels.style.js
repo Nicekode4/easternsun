@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
-export const SolarPanelsStyle = styled.article`
+export const SolarPanelsStyle = styled.article` 
+
     .panelArea{
+       padding-bottom: 5rem;
         width: 100%;
     a{
         text-decoration: none;
@@ -17,7 +19,7 @@ export const SolarPanelsStyle = styled.article`
         margin: 0.5rem;
         //background-color: #A0E150;
         border-radius: 30px;
-        padding: 1rem;
+        padding-top: 1rem;
         font-size: 13px;
         text-align: center;
         p{
