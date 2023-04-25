@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink, useParams } from 'react-router-dom'
 import Navbar from '../../Components/NavBar/Navbar'
 import { FrontPageStyle } from './FrontPage.style'
 import logo from '../../Images/logo-no-background.png'
 import solar from '../../Images/solar-panel.png'
-import solarData from "../../solcelle.json"
+// import solarData from "../../solcelle.json"
 import solarpanel2 from '../../Images/SolarPanel1.png'
 import solarpanel1 from '../../Images/solar-system.jpg'
 import {
@@ -22,7 +22,8 @@ import axios from 'axios'
 import Capacity from '../../Components/Capacity/Capacity'
 import TotalEnergy from '../../Components/TotalEnergy/TotalEnergy'
 const numbers = [22,4,66,8,99,1,8,25,46,63,83,39,3,83]
-
+   
+    
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -97,6 +98,9 @@ function calculateSolarEnergyProduced(capacity, numberOfPanels, efficiency) {
 }
 
 function FrontPage() {
+  const [solarData, setData] = useState([]);
+
+
   console.log(localStorage.getItem('MyId'));
  const { id } = useParams()  
   if (!id == localStorage.getItem('MyId')) {
@@ -109,7 +113,11 @@ function FrontPage() {
     if (id && localStorage.getItem('MyId') == undefined) {
      window.location.replace(solarData[0].sid);
    } 
-
+useEffect(() => {
+  fetch("https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkbWV2cGhleHNoaWludG9pb3F5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI0MjAzMTMsImV4cCI6MTk5Nzk5NjMxM30.a5P34_o63lHm9HxrPo-0TCYs8udwQBmIBKrKopxKfOQ")
+    .then((response) => response.json())
+    .then((data) => setData(data));
+}, []);
   let solarPanelData = solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))]
   const url = "https://admin.opendata.dk/api/3/action/datastore_search?resource_id=251528ca-8ec9-4b70-9960-83c4d0c4e7b6"
   const [post, setPost] = React.useState(null);
@@ -124,8 +132,8 @@ function FrontPage() {
     }
   getOpenWeather() 
   }, [id]);
-  let g1 = solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels * post?.hourly.cloudcover[new Date().getHours()] / 100
-let g2 = solarPanelData.capacity_pr_panel_in_W * solarPanelData.number_of_panels
+  let g1 = solarPanelData?.capacity_pr_panel_in_W * solarPanelData?.number_of_panels * post?.hourly.cloudcover[new Date().getHours()] / 100
+let g2 = solarPanelData?.capacity_pr_panel_in_W * solarPanelData?.number_of_panels
 let g3 = g2 - g1
   console.log(new Date(22.00).getHours());
     // Set the two times to subtract
@@ -147,8 +155,8 @@ let labels = []
 for (let index = new Date(post?.daily.sunrise[0]).getHours(); index < new Date(post?.daily.sunset[0]).getHours() + 1; index++) {
   const element = 1 - (post?.hourly.cloudcover[index] / 100);
   clouds.push(element * 100)
-  ProductionTotal = ProductionTotal + calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W,solarPanelData.number_of_panels, solarPanelData.effecincy) * element + 0.10
-  ChartProduction.push((calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W,solarPanelData.number_of_panels, solarPanelData.effecincy) * element + 0.10).toFixed(1))
+  ProductionTotal = ProductionTotal + calculateSolarEnergyProduced(solarPanelData?.capacity_pr_panel_in_W,solarPanelData?.number_of_panels, solarPanelData.effecincy) * element + 0.10
+  ChartProduction.push((calculateSolarEnergyProduced(solarPanelData?.capacity_pr_panel_in_W,solarPanelData?.number_of_panels, solarPanelData.effecincy) * element + 0.10).toFixed(1))
   labels.push(index)
 }
   
@@ -184,7 +192,7 @@ const data = {
     <FrontPageStyle>
       <img src={solarpanel1} alt="Solar panel" className='topImg'/>
                       <header>
-                        <h2>{solarPanelData.address}</h2>
+                        <h2>{solarPanelData?.name}</h2>
               <div>
                         <p>☁️ {post?.hourly.cloudcover[new Date().getHours()]}%</p>
         <p>☀️ {hoursOfDay(time2, time1).toFixed(1)} T</p>
@@ -204,10 +212,10 @@ const data = {
       </div>
       <div className='cardArea'>
       <Capacity 
-      kapacitet={solarPanelData.capacity_pr_panel_in_W}
+      kapacitet={solarPanelData?.capacity_pr_panel_in_W}
       />
       <TotalEnergy 
-      total={solarPanelData.number_of_panels}
+      total={solarPanelData?.number_of_panels}
       />
       <NavLink to={`/summary/${id}`}>  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
     <path d="M350 177.5c3.8-8.8 2-19-4.6-26l-136-144C204.9 2.7 198.6 0 192 0s-12.9 2.7-17.4 7.5l-136 144c-6.6 7-8.4 17.2-4.6 26S46.5 192 56 192h88v192c0 17.7-14.3 32-32 32H32c-17.7 0-32 14.3-32 32v32c0 17.7 14.3 32 32 32h80c70.7 0 128-57.3 128-128V192h88c9.6 0 18.2-5.7 22-14.5z" />

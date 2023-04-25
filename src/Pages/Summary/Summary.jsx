@@ -8,10 +8,9 @@ import PowerPeak from '../../Components/PowerPeak/PowerPeak'
 import Production from '../../Components/Production/Production'
 import TotalEnergy from '../../Components/TotalEnergy/TotalEnergy'
 import TotalYeld from '../../Components/TotalYeld/TotalYeld'
-import solarData from "../../solcelle.json"
+// import solarData from "../../solcelle.json"
 import back from "../../Images/arrow.png"
 import { SummaryStyle } from './Summary.style'
-
 
 //Calculates the reduction in CO2 the solar power replaces
 function calculateCO2Reduction(energyProduction, carbonIntensity) {
@@ -91,6 +90,7 @@ console.log(energyProduced);
 
 function Summary() {
   const { id } = useParams()
+  
   if (id !== localStorage.getItem('MyId')) {
     window.location.reload() 
     
@@ -98,7 +98,13 @@ function Summary() {
   if (id !== localStorage.getItem('MyId')) {
     localStorage.setItem('MyId', id) 
   }
-  
+  const [solarData, setData] = useState([]);
+
+useEffect(() => {
+  fetch("https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkbWV2cGhleHNoaWludG9pb3F5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI0MjAzMTMsImV4cCI6MTk5Nzk5NjMxM30.a5P34_o63lHm9HxrPo-0TCYs8udwQBmIBKrKopxKfOQ")
+    .then((response) => response.json())
+    .then((data) => setData(data));
+}, []);
   let solarPanelData = solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))]
   const [post, setPost] = React.useState(null);
   let productionData = []
