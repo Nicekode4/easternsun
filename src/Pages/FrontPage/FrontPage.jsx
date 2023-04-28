@@ -117,7 +117,7 @@ useEffect(() => {
   fetch("https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkbWV2cGhleHNoaWludG9pb3F5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI0MjAzMTMsImV4cCI6MTk5Nzk5NjMxM30.a5P34_o63lHm9HxrPo-0TCYs8udwQBmIBKrKopxKfOQ")
     .then((response) => response.json())
     .then((data) => setData(data));
-}, []);
+}, [id]);
   let solarPanelData = solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))]
   const url = "https://admin.opendata.dk/api/3/action/datastore_search?resource_id=251528ca-8ec9-4b70-9960-83c4d0c4e7b6"
   const [post, setPost] = React.useState(null);
@@ -146,7 +146,7 @@ time1.setHours(time1.getHours() - 1);
 // Calculate the difference in minutes between the two times
 var diffInMinutes = Math.abs(time2 - time1) / (1000 * 60 * 60).toFixed(0);
 
-
+console.log(solarPanelData);
 
 let ChartProduction = []
 let ProductionTotal = 0
@@ -188,7 +188,9 @@ const data = {
 
   ],
 };
-  return (
+if (solarData) {
+   return (
+    
     <FrontPageStyle>
       <img src={solarpanel1} alt="Solar panel" className='topImg'/>
                       <header>
@@ -223,6 +225,12 @@ const data = {
       </div>
     </FrontPageStyle>
   )
+}else{
+  return (
+    <div>Loading...</div>
+  )
+}
+ 
 }
 
 export default FrontPage

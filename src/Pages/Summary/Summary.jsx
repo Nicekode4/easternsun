@@ -100,11 +100,11 @@ function Summary() {
   }
   const [solarData, setData] = useState([]);
 
-useEffect(() => {
-  fetch("https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkbWV2cGhleHNoaWludG9pb3F5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI0MjAzMTMsImV4cCI6MTk5Nzk5NjMxM30.a5P34_o63lHm9HxrPo-0TCYs8udwQBmIBKrKopxKfOQ")
-    .then((response) => response.json())
-    .then((data) => setData(data));
-}, []);
+  useEffect(() => {
+    fetch("https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkbWV2cGhleHNoaWludG9pb3F5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI0MjAzMTMsImV4cCI6MTk5Nzk5NjMxM30.a5P34_o63lHm9HxrPo-0TCYs8udwQBmIBKrKopxKfOQ")
+      .then((response) => response.json())
+      .then((data) => setData(data));
+  }, [id]);
   let solarPanelData = solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))]
   const [post, setPost] = React.useState(null);
   let productionData = []
@@ -135,7 +135,7 @@ getOpenWeather()
     console.log("rn value", calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, solarPanelData.number_of_panels,solarPanelData.effecincy) * (element + 0.10));
   }
   console.log(ChartProduction);
-  if (post) {
+  if (solarData) {
     return (
       <SummaryStyle>
         <NavLink to={`/${localStorage.getItem('MyId')}`}><img className="backBtn" src={back} alt="back" /></NavLink>

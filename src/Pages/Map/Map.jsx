@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import windmillData from '../../solcelle.json'
+//import solarData from '../../solcelle.json'
 import icon from '../../Images/solar-panel.png'
 import big from '../../Images/big.jpg'
 import medium from '../../Images/medium.jpg'
@@ -30,7 +30,13 @@ let isLoaded = false
   
 
 function MobileMap() {
+  const [solarData, setData] = useState([]);
 
+  useEffect(() => {
+    fetch("https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkbWV2cGhleHNoaWludG9pb3F5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI0MjAzMTMsImV4cCI6MTk5Nzk5NjMxM30.a5P34_o63lHm9HxrPo-0TCYs8udwQBmIBKrKopxKfOQ")
+      .then((response) => response.json())
+      .then((data) => setData(data));
+  }, []);
     setTimeout(() => {
       isLoaded = true
     }, 1000);
@@ -92,7 +98,7 @@ function MobileMap() {
       <LocationMarker />
       
       <MarkerClusterGroup chunkedLoading>
-      {windmillData.map((marker,index) => {
+      {solarData.map((marker,index) => {
         let solarImg = ""
         if (marker.capacity_pr_panel_in_W * marker.number_of_panels < 9999 && marker.capacity_pr_panel_in_W * marker.number_of_panels > 0) {
             solarImg = small
