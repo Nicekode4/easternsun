@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import env from "react-dotenv";
 import { NavLink, useParams } from 'react-router-dom'
 import Navbar from '../../Components/NavBar/Navbar'
 import { FrontPageStyle } from './FrontPage.style'
@@ -118,7 +119,7 @@ const [post, setPost] = React.useState(null);
    useEffect(() => {
     const getData = async () => {
       try {
-        const response1 = await axios.get(`https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkbWV2cGhleHNoaWludG9pb3F5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI0MjAzMTMsImV4cCI6MTk5Nzk5NjMxM30.a5P34_o63lHm9HxrPo-0TCYs8udwQBmIBKrKopxKfOQ`);
+        const response1 = await axios.get(`${window.env.API_URL}?apikey=${window.env.API_KEY}`);
         setData(response1.data);
         solarPanelData = response1.data[response1.data?.indexOf(response1.data?.find(c => c.sid == id))]
         const response2 = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${solarPanelData?.Latitude}&longitude=${solarPanelData?.Longtitude}&hourly=temperature_2m,cloudcover&daily=sunrise,sunset&windspeed_unit=ms&timezone=Europe%2FBerlin`);
