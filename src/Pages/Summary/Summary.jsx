@@ -99,27 +99,33 @@ function Summary() {
     localStorage.setItem('MyId', id) 
   }
   const [solarData, setData] = useState([]);
+const [post, setPost] = React.useState(null);
+const [solarPanelDatas, setSolarPanelData] = useState(null)
+let solarPanelData = solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))]
+
 
   useEffect(() => {
-    fetch("https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkbWV2cGhleHNoaWludG9pb3F5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI0MjAzMTMsImV4cCI6MTk5Nzk5NjMxM30.a5P34_o63lHm9HxrPo-0TCYs8udwQBmIBKrKopxKfOQ")
-      .then((response) => response.json())
-      .then((data) => setData(data));
-  }, [id]);
-  let solarPanelData = solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))]
-  const [post, setPost] = React.useState(null);
+    const getData = async () => {
+      try {
+        const response1 = await axios.get(`https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkbWV2cGhleHNoaWludG9pb3F5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI0MjAzMTMsImV4cCI6MTk5Nzk5NjMxM30.a5P34_o63lHm9HxrPo-0TCYs8udwQBmIBKrKopxKfOQ`);
+        setData(response1.data);
+        solarPanelData = response1.data[response1.data?.indexOf(response1.data?.find(c => c.sid == id))]
+        const response2 = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${solarPanelData?.Latitude}&longitude=${solarPanelData?.Longtitude}&hourly=temperature_2m,cloudcover&daily=sunrise,sunset&windspeed_unit=ms&timezone=Europe%2FBerlin`);
+        
+        setPost(response2.data)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
+    getData();
+    
+  }, [id ]);
+  
+  
   let productionData = []
   let weatherData = []
-  useEffect(() => {
-  const getOpenWeather = async () => {
-    const res = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${solarPanelData.Latitude}&longitude=${solarPanelData.Longtitude}&hourly=temperature_2m,cloudcover&daily=sunrise,sunset&windspeed_unit=ms&timezone=Europe%2FBerlin`)
-
-    setPost(res.data)
-    console.log("status", res.data);
-    console.log(weatherData);
-  }
-getOpenWeather() 
-  }, [id]);
-
+  console.log(post);
 
   let ChartProduction = []
   let ProductionTotal = 0
