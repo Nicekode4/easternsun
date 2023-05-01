@@ -17,6 +17,7 @@ import { MarkerCluster } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import "leaflet/dist/leaflet.css";
 import { MapStyle } from "./Map.style";
+import axios from "axios";
 const createClusterCustomIcon = function (cluster: MarkerCluster) {
   return L.divIcon({
     html: `<span>${cluster.getChildCount()}</span>`,
@@ -33,9 +34,17 @@ function MobileMap() {
   const [solarData, setData] = useState([]);
 
   useEffect(() => {
-    fetch("https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkbWV2cGhleHNoaWludG9pb3F5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI0MjAzMTMsImV4cCI6MTk5Nzk5NjMxM30.a5P34_o63lHm9HxrPo-0TCYs8udwQBmIBKrKopxKfOQ")
-      .then((response) => response.json())
-      .then((data) => setData(data));
+    const getData = async () => {
+      try {
+        const response1 = await axios.get(`https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar${window.env.API_URL}?apikey=${window.env.API_KEY}`);
+        setData(response1.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
+    getData();
+    
   }, []);
     setTimeout(() => {
       isLoaded = true
@@ -117,11 +126,11 @@ function MobileMap() {
          }
         ]
         return (
-            <Marker position={pos[0].position} icon={customWindmill}>
+            <Marker key={index} position={pos[0].position} icon={customWindmill}>
             <Popup>
 
                 <img src={solarImg} alt="" />
-            <h2>{marker.address}</h2>
+            <h2>{marker.name}</h2>
             <h3>Kapacitet: {marker.capacity_pr_panel_in_W} W</h3>
             <h3>Paneler: {marker.number_of_panels}</h3>
             <NavLink to={`/${marker.sid}`}>Se mere</NavLink>

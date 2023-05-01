@@ -81,10 +81,10 @@ time1.setHours(time1.getHours() - 1);
 function calculateSolarEnergyProduced(capacity, numberOfPanels, efficiency) {
   // Convert capacity from watts to kilowatts
   capacity = capacity / 1000;
-console.log(capacity * numberOfPanels);
+//console.log(capacity * numberOfPanels);
   // Calculate energy produced in kilowatt-hours
   let energyProduced = (capacity * numberOfPanels) * efficiency / 100;
-console.log(energyProduced);
+//console.log(energyProduced);
   return energyProduced
 }
 
@@ -107,7 +107,8 @@ let solarPanelData = solarData[solarData?.indexOf(solarData?.find(c => c.sid == 
   useEffect(() => {
     const getData = async () => {
       try {
-        const response1 = await axios.get(`${window.env.API_URL}?apikey=${window.env.API_KEY}`);
+        
+        const response1 = await axios.get(`https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar${window.env.API_URL}?apikey=${window.env.API_KEY}`);
         setData(response1.data);
         solarPanelData = response1.data[response1.data?.indexOf(response1.data?.find(c => c.sid == id))]
         const response2 = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${solarPanelData?.Latitude}&longitude=${solarPanelData?.Longtitude}&hourly=temperature_2m,cloudcover&daily=sunrise,sunset&windspeed_unit=ms&timezone=Europe%2FBerlin`);
@@ -117,7 +118,6 @@ let solarPanelData = solarData[solarData?.indexOf(solarData?.find(c => c.sid == 
         console.log(error);
       }
     }
-    
     getData();
     
   }, [id ]);
@@ -138,9 +138,10 @@ let solarPanelData = solarData[solarData?.indexOf(solarData?.find(c => c.sid == 
     
     ChartProduction.push((calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, solarPanelData.number_of_panels ,solarPanelData.effecincy) * (element + 0.10)).toFixed(1))
     labels.push(index)
-    console.log("rn value", calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, solarPanelData.number_of_panels,solarPanelData.effecincy) * (element + 0.10));
+   // console.log("rn value", calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, solarPanelData.number_of_panels,solarPanelData.effecincy) * (element + 0.10));
   }
-  console.log(ChartProduction);
+  console.log(window.env.API_URL);
+ // console.log(ChartProduction);
   if (solarData) {
     return (
       <SummaryStyle>
