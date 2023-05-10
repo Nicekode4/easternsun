@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import windmillData from '../../solcelle.json'
+
+//import solarData from '../../solcelle.json'
 import icon from '../../Images/solar-panel.png'
 import big from '../../Images/big.jpg'
 import medium from '../../Images/medium.jpg'
@@ -17,6 +18,7 @@ import { MarkerCluster } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import "leaflet/dist/leaflet.css";
 import { MapStyle } from "./Map.style";
+import axios from "axios";
 const createClusterCustomIcon = function (cluster: MarkerCluster) {
   return L.divIcon({
     html: `<span>${cluster.getChildCount()}</span>`,
@@ -30,7 +32,21 @@ let isLoaded = false
   
 
 function MobileMap() {
+  const [solarData, setData] = useState([]);
 
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response1 = await axios.get(`https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar?apikey=${process.env.REACT_APP_API_KEY}`);
+        setData(response1.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
+    getData();
+    
+  }, []);
     setTimeout(() => {
       isLoaded = true
     }, 1000);
@@ -92,7 +108,7 @@ function MobileMap() {
       <LocationMarker />
       
       <MarkerClusterGroup chunkedLoading>
-      {windmillData.map((marker,index) => {
+      {solarData.map((marker,index) => {
         let solarImg = ""
         if (marker.capacity_pr_panel_in_W * marker.number_of_panels < 9999 && marker.capacity_pr_panel_in_W * marker.number_of_panels > 0) {
             solarImg = small
@@ -111,11 +127,11 @@ function MobileMap() {
          }
         ]
         return (
-            <Marker position={pos[0].position} icon={customWindmill}>
+            <Marker key={index} position={pos[0].position} icon={customWindmill}>
             <Popup>
 
                 <img src={solarImg} alt="" />
-            <h2>{marker.address}</h2>
+            <h2>{marker.name}</h2>
             <h3>Kapacitet: {marker.capacity_pr_panel_in_W} W</h3>
             <h3>Paneler: {marker.number_of_panels}</h3>
             <NavLink to={`/${marker.sid}`}>Se mere</NavLink>
