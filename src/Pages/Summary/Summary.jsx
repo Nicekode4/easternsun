@@ -108,7 +108,7 @@ let solarPanelData = solarData[solarData?.indexOf(solarData?.find(c => c.sid == 
     const getData = async () => {
       try {
         
-        const response1 = await axios.get(`https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar${window.env.API_URL}?apikey=${window.env.API_KEY}`);
+        const response1 = await axios.get(`https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar?apikey=${process.env.REACT_APP_API_KEY}`);
         setData(response1.data);
         solarPanelData = response1.data[response1.data?.indexOf(response1.data?.find(c => c.sid == id))]
         const response2 = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${solarPanelData?.Latitude}&longitude=${solarPanelData?.Longtitude}&hourly=temperature_2m,cloudcover&daily=sunrise,sunset&windspeed_unit=ms&timezone=Europe%2FBerlin`);
@@ -140,7 +140,6 @@ let solarPanelData = solarData[solarData?.indexOf(solarData?.find(c => c.sid == 
     labels.push(index)
    // console.log("rn value", calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, solarPanelData.number_of_panels,solarPanelData.effecincy) * (element + 0.10));
   }
-  console.log(window.env.API_URL);
  // console.log(ChartProduction);
   if (solarData) {
     return (

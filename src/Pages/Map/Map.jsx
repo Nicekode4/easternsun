@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+
 //import solarData from '../../solcelle.json'
 import icon from '../../Images/solar-panel.png'
 import big from '../../Images/big.jpg'
@@ -36,7 +37,7 @@ function MobileMap() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response1 = await axios.get(`https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar${window.env.API_URL}?apikey=${window.env.API_KEY}`);
+        const response1 = await axios.get(`https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar?apikey=${process.env.REACT_APP_API_KEY}`);
         setData(response1.data);
       } catch (error) {
         console.log(error);

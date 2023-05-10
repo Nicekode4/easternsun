@@ -11,7 +11,7 @@ function SolarPanels() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response1 = await axios.get(`https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar${window.env.API_URL}?apikey=${window.env.API_KEY}`);
+        const response1 = await axios.get(`https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar?apikey=${process.env.REACT_APP_API_KEY}`);
         setData(response1.data);
       } catch (error) {
         console.log(error);
