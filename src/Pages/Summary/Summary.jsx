@@ -8,10 +8,9 @@ import PowerPeak from '../../Components/PowerPeak/PowerPeak'
 import Production from '../../Components/Production/Production'
 import TotalEnergy from '../../Components/TotalEnergy/TotalEnergy'
 import TotalYeld from '../../Components/TotalYeld/TotalYeld'
-import solarData from "../../solcelle.json"
+// import solarData from "../../solcelle.json"
 import back from "../../Images/arrow.png"
 import { SummaryStyle } from './Summary.style'
-
 
 //Calculates the reduction in CO2 the solar power replaces
 function calculateCO2Reduction(energyProduction, carbonIntensity) {
@@ -82,15 +81,16 @@ time1.setHours(time1.getHours() - 1);
 function calculateSolarEnergyProduced(capacity, numberOfPanels, efficiency) {
   // Convert capacity from watts to kilowatts
   capacity = capacity / 1000;
-console.log(capacity * numberOfPanels);
+//console.log(capacity * numberOfPanels);
   // Calculate energy produced in kilowatt-hours
   let energyProduced = (capacity * numberOfPanels) * efficiency / 100;
-console.log(energyProduced);
+//console.log(energyProduced);
   return energyProduced
 }
 
 function Summary() {
   const { id } = useParams()
+  
   if (id !== localStorage.getItem('MyId')) {
     window.location.reload() 
     
@@ -98,22 +98,34 @@ function Summary() {
   if (id !== localStorage.getItem('MyId')) {
     localStorage.setItem('MyId', id) 
   }
+  const [solarData, setData] = useState([]);
+const [post, setPost] = React.useState(null);
+const [solarPanelDatas, setSolarPanelData] = useState(null)
+let solarPanelData = solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))]
+
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        
+        const response1 = await axios.get(`https://xdmevphexshiintoioqy.supabase.co/rest/v1/solar?apikey=${process.env.REACT_APP_API_KEY}`);
+        setData(response1.data);
+        solarPanelData = response1.data[response1.data?.indexOf(response1.data?.find(c => c.sid == id))]
+        const response2 = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${solarPanelData?.Latitude}&longitude=${solarPanelData?.Longtitude}&hourly=temperature_2m,cloudcover&daily=sunrise,sunset&windspeed_unit=ms&timezone=Europe%2FBerlin`);
+        
+        setPost(response2.data)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
+    
+  }, [id ]);
   
-  let solarPanelData = solarData[solarData?.indexOf(solarData?.find(c => c.sid == id))]
-  const [post, setPost] = React.useState(null);
+  
   let productionData = []
   let weatherData = []
-  useEffect(() => {
-  const getOpenWeather = async () => {
-    const res = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${solarPanelData.Latitude}&longitude=${solarPanelData.Longtitude}&hourly=temperature_2m,cloudcover&daily=sunrise,sunset&windspeed_unit=ms&timezone=Europe%2FBerlin`)
-
-    setPost(res.data)
-    console.log("status", res.data);
-    console.log(weatherData);
-  }
-getOpenWeather() 
-  }, [id]);
-
+  console.log(post);
 
   let ChartProduction = []
   let ProductionTotal = 0
@@ -126,10 +138,10 @@ getOpenWeather()
     
     ChartProduction.push((calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, solarPanelData.number_of_panels ,solarPanelData.effecincy) * (element + 0.10)).toFixed(1))
     labels.push(index)
-    console.log("rn value", calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, solarPanelData.number_of_panels,solarPanelData.effecincy) * (element + 0.10));
+   // console.log("rn value", calculateSolarEnergyProduced(solarPanelData.capacity_pr_panel_in_W, solarPanelData.number_of_panels,solarPanelData.effecincy) * (element + 0.10));
   }
-  console.log(ChartProduction);
-  if (post) {
+ // console.log(ChartProduction);
+  if (solarData) {
     return (
       <SummaryStyle>
         <NavLink to={`/${localStorage.getItem('MyId')}`}><img className="backBtn" src={back} alt="back" /></NavLink>
